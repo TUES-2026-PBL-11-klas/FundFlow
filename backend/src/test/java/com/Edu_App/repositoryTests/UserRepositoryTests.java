@@ -57,4 +57,24 @@ public class UserRepositoryTests {
         Optional<UserEntity> result2 = this.userRepository.findById(userId);
         assertThat(result2).isEmpty();
     }
+
+    @Test
+    public void testFindUserByUsername()
+    {
+        UserEntity user = TestData.CreateTestUserEntity1();
+        user = this.userRepository.save(user);
+        Optional<UserEntity> result1 = this.userRepository.findByUsername(user.getUsername());
+        assertThat(result1).isPresent();
+        assertThat(result1.get()).isEqualTo(user);
+    }
+
+    @Test
+    public void testFindUserByEmail()
+    {
+        UserEntity user = TestData.CreateTestUserEntity1();
+        user = this.userRepository.save(user);
+        Optional<UserEntity> result1 = this.userRepository.findByEmail(user.getEmail());
+        assertThat(result1).isPresent();
+        assertThat(result1.get()).isEqualTo(user);
+    }
 }

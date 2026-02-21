@@ -9,4 +9,6 @@ import com.Edu_App.domain.entities.UserEntity;
 public interface UserRepository extends CrudRepository<UserEntity, Integer>{
 
     public Optional<UserEntity> findByUsername(String username);
+
+    public Optional<UserEntity> findByEmail(String email);
 }
