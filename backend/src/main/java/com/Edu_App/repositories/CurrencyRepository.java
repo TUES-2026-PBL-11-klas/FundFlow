@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.Edu_App.domain.entities.CurrencyEntity;
 
-public interface CurrencyRepository extends CrudRepository<CurrencyEntity, String>{
+public interface CurrencyRepository extends CrudRepository<CurrencyEntity, Integer>{
     
 }

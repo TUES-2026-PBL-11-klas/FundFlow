@@ -3,6 +3,8 @@ package com.Edu_App.domain.entities;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +22,9 @@ import lombok.NoArgsConstructor;
 public class AccountEntity {
     
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;
+
     private String iban;
     
     private double balance;
@@ -30,6 +35,6 @@ public class AccountEntity {
     
 
     @ManyToOne
-    @JoinColumn(name = "currency_code")
+    @JoinColumn(name = "currency_id")
     private CurrencyEntity currency;
 }

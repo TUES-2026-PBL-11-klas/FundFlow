@@ -32,7 +32,7 @@ public class CurrencyRepositoryTests {
         CurrencyEntity currency = TestData.CreateTestCurrencyEntity1();
         currencyRepository.save(currency);
 
-        Optional<CurrencyEntity> result = currencyRepository.findById(currency.getCode());
+        Optional<CurrencyEntity> result = currencyRepository.findById(currency.getId());
 
         assertThat(result).isPresent();
         assertThat(result.get().getCode()).isEqualTo(currency.getCode());
@@ -43,18 +43,18 @@ public class CurrencyRepositoryTests {
     public void testUpdateAndDeleteCurrency() {
         CurrencyEntity currency = TestData.CreateTestCurrencyEntity1();
         currencyRepository.save(currency);
-        String code = currency.getCode();
+        Integer id = currency.getId();
 
         currency.setExchangeRate(1.53);
         currencyRepository.save(currency);
 
-        Optional<CurrencyEntity> updated = currencyRepository.findById(code);
+        Optional<CurrencyEntity> updated = currencyRepository.findById(id);
         assertThat(updated).isPresent();
         assertThat(updated.get().getExchangeRate()).isEqualTo(1.53);
 
-        currencyRepository.deleteById(code);
+        currencyRepository.deleteById(id);
 
-        Optional<CurrencyEntity> deleted = currencyRepository.findById(code);
+        Optional<CurrencyEntity> deleted = currencyRepository.findById(id);
         assertThat(deleted).isEmpty();
     }
 }

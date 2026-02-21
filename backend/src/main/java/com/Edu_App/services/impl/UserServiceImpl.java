@@ -81,10 +81,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateUser(Integer id, UserEntity newUser)
+    public UserEntity updateUser(Integer id, UserEntity newUser) throws BadRequestException
     {
         UserEntity user = findUserById(id);
+        Optional<UserEntity> existingUserWithThisUsername = this.userRepository.findByUsername(newUser.getUsername());
+        if(existingUserWithThisUsername.isPresent() && !existingUserWithThisUsername.get().getId().equals(id))
+        {
+            throw new BadRequestException("this username is already taken");
+        }
         user.setUsername(newUser.getUsername());
+        Optional<UserEntity> existingUserWithThisEmail = this.userRepository.findByEmail(newUser.getEmail());
+        if(existingUserWithThisEmail.isPresent() && !existingUserWithThisEmail.get().getId().equals(id))
+        {
+            throw new BadRequestException("this email is already taken");
+        }
         user.setEmail(newUser.getEmail());
         user.setHashPassword(newUser.getHashPassword());
         return this.userRepository.save(user);

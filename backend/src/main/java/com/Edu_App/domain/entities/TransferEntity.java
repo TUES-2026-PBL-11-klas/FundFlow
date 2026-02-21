@@ -26,17 +26,17 @@ public class TransferEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "sender_iban")
+    @JoinColumn(name = "sender_id")
     private AccountEntity sender;
 
     @ManyToOne
-    @JoinColumn(name = "reciever_iban")
+    @JoinColumn(name = "reciever_id")
     private AccountEntity reciever;
 
     private double amount;
 
     @ManyToOne
-    @JoinColumn(name = "currency_code")
+    @JoinColumn(name = "currency_id")
     private CurrencyEntity currency;
 
 

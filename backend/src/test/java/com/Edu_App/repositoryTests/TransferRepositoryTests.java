@@ -80,6 +80,6 @@ public class TransferRepositoryTests {
         this.transferRepository.deleteById(transferId);
         
         assertThat(this.transferRepository.findById(transferId)).isEmpty();
-        assertThat(this.accountRepository.existsById(acc1.getIban())).isTrue();
+        assertThat(this.accountRepository.existsById(acc1.getId())).isTrue();
     }
 }

@@ -44,7 +44,7 @@ public class AccountRepositoryTests {
         this.currencyRepository.save(currency1);
         AccountEntity account = TestData.CreateTestAccountEntity1(user1, currency1);
         accountRepository.save(account);
-        Optional<AccountEntity> result = accountRepository.findById(account.getIban());
+        Optional<AccountEntity> result = accountRepository.findById(account.getId());
         assertThat(result).isPresent();
         assertThat(result.get().getBalance()).isEqualTo(account.getBalance());
         assertThat(result.get().getOwner().getUsername()).isEqualTo(account.getOwner().getUsername());
@@ -61,19 +61,19 @@ public class AccountRepositoryTests {
 
         AccountEntity account = TestData.CreateTestAccountEntity1(user, currency);
         accountRepository.save(account);
-        String iban = account.getIban();
+        Integer id = account.getId();
 
         double newBalance = 5000.50;
         account.setBalance(newBalance);
         accountRepository.save(account);
 
-        Optional<AccountEntity> updatedResult = accountRepository.findById(iban);
+        Optional<AccountEntity> updatedResult = accountRepository.findById(id);
         assertThat(updatedResult).isPresent();
         assertThat(updatedResult.get().getBalance()).isEqualTo(newBalance);
 
-        accountRepository.deleteById(iban);
+        accountRepository.deleteById(id);
 
-        Optional<AccountEntity> deletedResult = accountRepository.findById(iban);
+        Optional<AccountEntity> deletedResult = accountRepository.findById(id);
         assertThat(deletedResult).isEmpty();
     }
 }

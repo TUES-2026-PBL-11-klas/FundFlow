@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.Edu_App.domain.entities.AccountEntity;
 
-public interface AccountRepository extends CrudRepository<AccountEntity, String>{
+public interface AccountRepository extends CrudRepository<AccountEntity, Integer>{
 
 }
