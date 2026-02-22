@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.Edu_App.TestData;
 import com.Edu_App.domain.entities.UserEntity;
+import com.Edu_App.domain.entities.UserStatus;
 import com.Edu_App.exceptions.BadRequestException;
 import com.Edu_App.exceptions.ResourceNotFoundException;
 import com.Edu_App.services.UserService;
@@ -40,6 +41,7 @@ public class UserServiceTests
 
         assertThat(foundUser).isNotNull();
         assertThat(foundUser.getEmail()).isEqualTo(user.getEmail());
+        assertThat(foundUser.getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
 
     @Test
@@ -87,6 +89,15 @@ public class UserServiceTests
     }
 
     @Test
+    public void testUpdateUserThrowException()
+    {
+        UserEntity user1 = userService.createUser(TestData.CreateTestUserEntity1());
+        this.userService.createUser(TestData.CreateTestUserEntity2());
+        UserEntity updateDetails = TestData.CreateTestUserEntity2();
+        assertThrows(BadRequestException.class, () -> {this.userService.updateUser(user1.getId(), updateDetails);});
+    }
+
+    @Test
     public void testDeleteUser() 
     {
         UserEntity user = userService.createUser(TestData.CreateTestUserEntity1());
@@ -94,7 +105,8 @@ public class UserServiceTests
 
         userService.deleteUserById(id);
 
-        assertThrows(ResourceNotFoundException.class, () -> userService.findUserById(id));
+        assertThrows(ResourceNotFoundException.class, () -> userService.findActiveUserById(id));
+        assertDoesNotThrow(() -> userService.findUserById(id));
     }
 
     @Test
@@ -102,4 +114,30 @@ public class UserServiceTests
     {
         assertThrows(ResourceNotFoundException.class, () -> userService.deleteUserById(999));
     }
+
+    @Test 
+    public void testFindActiveUserThrowException()
+    {
+        UserEntity user1 = userService.createUser(TestData.CreateTestUserEntity1());
+        this.userService.deleteUserById(user1.getId());
+        assertThrows(ResourceNotFoundException.class, () -> userService.findActiveUserById(user1.getId()));
+        UserEntity user2 = TestData.CreateTestUserEntity1();
+        assertDoesNotThrow(() -> {this.userService.createUser(user2);});
+    }
+    
+    @Test
+    public void testUpdateStatusThrowException() 
+    {
+        UserEntity user1 = userService.createUser(TestData.CreateTestUserEntity1());
+        userService.updateStatus(user1.getId(), UserStatus.DELETED);
+        UserEntity findDeletedUser = this.userService.findUserById(user1.getId());
+        assertThat(findDeletedUser.getStatus()).isEqualTo(UserStatus.DELETED);
+        UserEntity user2 = TestData.CreateTestUserEntity2();
+        user2.setEmail(user1.getEmail());
+        userService.createUser(user2);
+
+        assertThrows(BadRequestException.class, () -> 
+            userService.updateStatus(user1.getId(), UserStatus.ACTIVE));
+    }
+
 }

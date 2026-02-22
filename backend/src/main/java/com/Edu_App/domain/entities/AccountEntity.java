@@ -3,6 +3,8 @@ package com.Edu_App.domain.entities;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,4 +39,8 @@ public class AccountEntity {
     @ManyToOne
     @JoinColumn(name = "currency_id")
     private CurrencyEntity currency;
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private AccountStatus status = AccountStatus.ACTIVE;
 }

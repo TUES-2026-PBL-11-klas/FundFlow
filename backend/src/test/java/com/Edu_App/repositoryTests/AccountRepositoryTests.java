@@ -2,6 +2,7 @@ package com.Edu_App.repositoryTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -75,5 +76,40 @@ public class AccountRepositoryTests {
 
         Optional<AccountEntity> deletedResult = accountRepository.findById(id);
         assertThat(deletedResult).isEmpty();
+    }
+
+    @Test
+    public void testFindAccountById()
+    {
+        UserEntity user = TestData.CreateTestUserEntity1();
+        CurrencyEntity currency = TestData.CreateTestCurrencyEntity1();
+        this.userRepository.save(user);
+        this.currencyRepository.save(currency);
+        AccountEntity account = TestData.CreateTestAccountEntity1(user, currency);
+        this.accountRepository.save(account);
+        Optional<AccountEntity> result = this.accountRepository.findByIban(account.getIban());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(account);
+    }
+
+    @Test
+    public void testFindAccountsByOwner()
+    {
+       UserEntity user = TestData.CreateTestUserEntity1();
+       CurrencyEntity currency1 = TestData.CreateTestCurrencyEntity1(); 
+       CurrencyEntity currency2 = TestData.CreateTestCurrencyEntity2();
+       this.userRepository.save(user);
+       this.currencyRepository.save(currency1);
+       this.currencyRepository.save(currency2);
+       AccountEntity account1 = TestData.CreateTestAccountEntity1(user, currency1);
+       AccountEntity account2 = TestData.CreateTestAccountEntity1(user, currency2);
+       this.accountRepository.save(account1);
+       this.accountRepository.save(account2);
+       List<AccountEntity> result = this.accountRepository.findAllByOwner(user);
+       assertThat(result).isNotEmpty();
+       for(AccountEntity a : result)
+       {
+         assertThat(a.getOwner()).isEqualTo(user);
+       }
     }
 }
