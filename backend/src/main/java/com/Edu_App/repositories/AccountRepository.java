@@ -19,4 +19,6 @@ public interface AccountRepository extends CrudRepository<AccountEntity, Integer
     public List<AccountEntity> findAllByOwnerAndStatus(UserEntity owner, AccountStatus status);
 
     public List<AccountEntity> findAllByStatus(AccountStatus status);
+
+    public Optional<AccountEntity> findByIdAndStatus(Integer id, AccountStatus status);
 }
