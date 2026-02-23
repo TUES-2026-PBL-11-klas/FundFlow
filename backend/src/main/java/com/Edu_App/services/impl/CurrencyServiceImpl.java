@@ -89,6 +89,13 @@ public class CurrencyServiceImpl implements CurrencyService {
         this.currencyRepository.save(currency.get());
     }
 
+    @Override
+    public double convertAmount(double amount, Integer fromId, Integer toId)
+    {
+        CurrencyEntity currencyFrom = this.findCurrencyById(fromId);
+        CurrencyEntity currencyTo = this.findCurrencyById(toId);
+        return (amount / currencyFrom.getExchangeRate()) * currencyTo.getExchangeRate();
+    }
 
 
 

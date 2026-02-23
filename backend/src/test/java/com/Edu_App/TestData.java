@@ -67,7 +67,7 @@ public final class TestData {
         return TransferEntity.builder()
                             .amount(500.0)
                             .sender(sender)
-                            .reciever(reciever)
+                            .receiver(reciever)
                             .currency(currencyE).build();
     }
 
@@ -76,7 +76,7 @@ public final class TestData {
         return TransferEntity.builder()
                             .amount(250.0)
                             .sender(sender)
-                            .reciever(reciever)
+                            .receiver(reciever)
                             .currency(currencyE).build();
     }
 
