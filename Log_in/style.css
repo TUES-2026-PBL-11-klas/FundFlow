@@ -1,0 +1,86 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    height: 100vh;
+    background: url("backound.png") no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    width:350px;
+    padding:40px;
+    border-radius:15px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+    color:white;
+    text-align:center;
+}
+
+h2{
+    margin-bottom:25px;
+    font-size:28px;
+}
+
+.input-group{
+    position:relative;
+    margin:15px 0;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px 40px 12px 15px;
+    border-radius:25px;
+    border:none;
+    outline:none;
+}
+
+.input-group svg{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    fill:#555;
+}
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin:10px 0;
+}
+
+.options a{
+    color:white;
+    text-decoration:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.bottom{
+    margin-top:15px;
+    font-size:14px;
+}
+
+.bottom a{
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
+}
