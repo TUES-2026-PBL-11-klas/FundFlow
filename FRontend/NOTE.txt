@@ -1,0 +1,33 @@
+1 front page
+  Acount info
+ - user name
+ - email
+ - pass hiden / visible
+ - balanse 
+
+ - resive "B" 
+ - trans "B"
+ - Log out link
+ - new acount "B"
+
+2 Withdraw
+
+3 Transfer
+ - заглавие най - отгоре – Fund Flow оголемен шрифт 
+ - a box in the senter {
+ - email
+ - Iban
+ - amount 
+ - options for cur 10 examp
+ - buton for conform 
+}
+4 Acount
+ - creat an acount title
+ - User name box
+ - Email box 
+   creat button
+
+ - Name of the acount
+ - Iban
+ - chose curensy (10 options)
+                                                                                        

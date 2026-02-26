@@ -15,37 +15,33 @@ body{
 }
 
 .container{
-    width:420px;
+    width:380px;
     padding:35px;
     border-radius:18px;
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(14px);
     border:1px solid rgba(255,255,255,0.2);
+    text-align:center;
 }
 
 h1{
-    text-align:center;
-    margin-bottom:25px;
+    margin-bottom:20px;
+    font-size:28px;
 }
 
-.info{
-    margin-bottom:25px;
-}
-
-.info p{
+input, select{
+    width:100%;
+    padding:12px;
     margin:10px 0;
-    font-size:16px;
-}
-
-.balance{
-    font-size:22px;
-    font-weight:bold;
+    border-radius:10px;
+    border:none;
+    outline:none;
 }
 
 button{
     width:100%;
     padding:12px;
-    margin:8px 0;
+    margin-top:12px;
     border:none;
     border-radius:25px;
     background:white;
@@ -56,14 +52,4 @@ button{
 
 button:hover{
     background:#e5e7eb;
-}
-
-.logout{
-    text-align:center;
-    margin-top:10px;
-}
-
-.logout a{
-    color:white;
-    text-decoration:none;
 }
