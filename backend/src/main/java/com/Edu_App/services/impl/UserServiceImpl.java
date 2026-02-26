@@ -148,4 +148,23 @@ public class UserServiceImpl implements UserService {
             userRepository.save(inactiveUser);
         }
     }
+
+    @Override
+    public UserEntity findUserByEmailOrUsername(String UsernameOrEmail)
+    {
+        Optional<UserEntity> userWithThatUsername = this.userRepository.findByUsernameAndStatus(UsernameOrEmail, UserStatus.ACTIVE);
+        if(userWithThatUsername.isPresent())
+        {
+            return userWithThatUsername.get();
+        }
+        else
+        {
+            Optional<UserEntity> userWithThatEmail = this.userRepository.findByEmailAndStatus(UsernameOrEmail, UserStatus.ACTIVE);
+            if(userWithThatEmail.isPresent())
+            {
+                return userWithThatEmail.get();
+            }
+        }
+        throw new ResourceNotFoundException("User with that username or email not found");
+    }
 }

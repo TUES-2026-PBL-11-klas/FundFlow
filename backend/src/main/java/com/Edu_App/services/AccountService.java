@@ -17,4 +17,5 @@ public interface AccountService {
     public void withdrawFromAccount(Integer id, double amount);
     public void changeCurrency(Integer id, Integer newCurrencyId);
     public void deleteAccountById(Integer id);
+    public String generateRandomIban();
 }

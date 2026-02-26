@@ -184,6 +184,25 @@ public class AccountServiceImpl implements AccountService{
         account.get().setStatus(AccountStatus.DELETED);
         this.accountRepository.save(account.get());
     }
-
-
+    @Override
+    public String generateRandomIban() 
+    {
+        StringBuilder iban = new StringBuilder("BG");
+        
+        int checkDigits = (int) (Math.random() * 90) + 10;
+        iban.append(checkDigits);
+        iban.append("EDUB");
+        String characters = "0123456789";
+        java.util.Random random = new java.util.Random();
+        for(int i = 0; i < 14; i++) 
+        {
+            iban.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        String ibanStr = iban.toString();
+        if(this.accountRepository.findByIban(ibanStr).isPresent())
+        {
+            return generateRandomIban();
+        }
+        return iban.toString();
+    }
 }

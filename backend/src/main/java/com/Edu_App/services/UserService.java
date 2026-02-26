@@ -18,4 +18,5 @@ public interface UserService {
     public UserEntity findActiveUserById(Integer id);
     public List<UserEntity> getAllActiveUsers();
     public void updateStatus(Integer id, UserStatus status);
+    public UserEntity findUserByEmailOrUsername(String UsernameOrEmail);
 }
