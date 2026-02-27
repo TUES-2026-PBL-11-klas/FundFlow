@@ -7,13 +7,14 @@
 </head>
 <body>
 
+
 <div class="container">
     <h2>Login</h2>
 
-    <form>
+    <form id="loginForm">
 
         <div class="input-group">
-            <input type="email" placeholder="Email" required>
+            <input type="email" placeholder="Email" id="email" required>
             <!-- USER ICON -->
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                 <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 
@@ -26,7 +27,7 @@
         </div>
 
         <div class="input-group">
-            <input type="password" placeholder="Password" required>
+            <input type="password" placeholder="Password" id="password" required>
             <!-- LOCK ICON -->
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
                 <path d="M6 22h12c1.1 0 2-.9 
@@ -43,17 +44,19 @@
             <a href="#">Forgot?</a>
         </div>
 
-        <a href="http://127.0.0.1:5500/FRontend/front/Front/Front_page.html">
+        
         <button type="submit">Login</button>
-        </a>
+
+        <div id="error-msg" style="color: red; margin-top: 10px; text-align: center; font-size: 14px;"></div>
 
         <div class="bottom">
             Don't have an account?
-            <a href="http://127.0.0.1:5500/FRontend/login/sign_in.html">Register</a>
+            <a href="sign_in.html">Register</a>
         </div>
 
     </form>
 </div>
 <script src="sign_in.js"></script>
+
 </body>
 </html>
