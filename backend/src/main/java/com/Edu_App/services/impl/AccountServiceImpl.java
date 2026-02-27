@@ -1,5 +1,7 @@
 package com.Edu_App.services.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ import com.Edu_App.repositories.AccountRepository;
 import com.Edu_App.services.AccountService;
 import com.Edu_App.services.CurrencyService;
 import com.Edu_App.services.UserService;
+
+import jakarta.transaction.Transactional;
 @Service
 public class AccountServiceImpl implements AccountService{
 
@@ -38,7 +42,7 @@ public class AccountServiceImpl implements AccountService{
         }
         UserEntity owner = userService.findActiveUserById(accountE.getOwner().getId());
         CurrencyEntity currency = currencyService.findCurrencyById(accountE.getCurrency().getId());
-        if(accountE.getBalance() < 0) 
+        if(accountE.getBalance().compareTo(BigDecimal.ZERO) < 0) 
         {
             throw new BadRequestException("Initial balance cannot be negative");
         }
@@ -116,46 +120,46 @@ public class AccountServiceImpl implements AccountService{
         UserEntity userEntity = this.userService.findActiveUserById(userId);
         return this.accountRepository.findAllByOwnerAndStatus(userEntity, AccountStatus.ACTIVE);
     }
-
+    @Transactional
     @Override
-    public void depositInAccount(Integer id, double amount)
+    public void depositInAccount(Integer id, BigDecimal amount)
     {
         Optional<AccountEntity> account = this.accountRepository.findByIdAndStatus(id, AccountStatus.ACTIVE);
         if(!account.isPresent())
         {
             throw new ResourceNotFoundException("this account does not exist");
         }
-        if(amount < 0)
+        if(amount.compareTo(BigDecimal.ZERO) < 0)
         {
             throw new BadRequestException("amount cannot be negative");
         }
-        double currentBalance = account.get().getBalance();
-        account.get().setBalance(currentBalance + amount);
+        BigDecimal currentBalance = account.get().getBalance();
+        account.get().setBalance(currentBalance.add(amount));
         this.accountRepository.save(account.get());
 
     }
-
+    @Transactional
     @Override
-    public void withdrawFromAccount(Integer id, double amount)
+    public void withdrawFromAccount(Integer id, BigDecimal amount)
     {
         Optional<AccountEntity> account = this.accountRepository.findByIdAndStatus(id, AccountStatus.ACTIVE);
         if(!account.isPresent())
         {
             throw new ResourceNotFoundException("this account does not exist");
         }
-        if(amount < 0)
+        if(amount.compareTo(BigDecimal.ZERO) < 0)
         {
             throw new BadRequestException("amount cannot be negative");
         }
-        double currentBalance = account.get().getBalance();
-        if(amount > currentBalance)
+        BigDecimal currentBalance = account.get().getBalance();
+        if(amount.compareTo(currentBalance) > 0)
         {
             throw new BadRequestException("You cannot withdraw more than the current balance");
         }
-        account.get().setBalance(currentBalance - amount);
+        account.get().setBalance(currentBalance.subtract(amount));
         this.accountRepository.save(account.get());
     }
-
+    @Transactional
     @Override
     public void changeCurrency(Integer id, Integer newCurrencyId)
     {
@@ -165,10 +169,10 @@ public class AccountServiceImpl implements AccountService{
             throw new ResourceNotFoundException("this account does not exist");
         }
         CurrencyEntity newCurrencyEntity = this.currencyService.findCurrencyById(newCurrencyId);
-        double oldExchangeRate = account.get().getCurrency().getExchangeRate();
-        double newExchangeRate = newCurrencyEntity.getExchangeRate();
-        double balance = account.get().getBalance();
-        account.get().setBalance((balance/oldExchangeRate) * newExchangeRate);
+        BigDecimal oldExchangeRate = account.get().getCurrency().getExchangeRate();
+        BigDecimal newExchangeRate = newCurrencyEntity.getExchangeRate();
+        BigDecimal balance = account.get().getBalance();
+        account.get().setBalance((balance.divide(oldExchangeRate, 10, RoundingMode.HALF_UP)).multiply(newExchangeRate));
         account.get().setCurrency(newCurrencyEntity);
         this.accountRepository.save(account.get());
     }

@@ -1,5 +1,7 @@
 package com.Edu_App.services.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +80,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         
     }
 
-    public void updateCurrencyExchangeRate(Integer id, double newExchangeRate)
+    public void updateCurrencyExchangeRate(Integer id, BigDecimal newExchangeRate)
     {
         Optional<CurrencyEntity> currency = this.currencyRepository.findById(id);
         if(!currency.isPresent())
@@ -90,11 +92,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public double convertAmount(double amount, Integer fromId, Integer toId)
+    public BigDecimal convertAmount(BigDecimal amount, Integer fromId, Integer toId)
     {
         CurrencyEntity currencyFrom = this.findCurrencyById(fromId);
         CurrencyEntity currencyTo = this.findCurrencyById(toId);
-        return (amount / currencyFrom.getExchangeRate()) * currencyTo.getExchangeRate();
+        return amount.divide(currencyFrom.getExchangeRate(), 10, RoundingMode.HALF_UP)
+                    .multiply(currencyTo.getExchangeRate());
     }
 
 

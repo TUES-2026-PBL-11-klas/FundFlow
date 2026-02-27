@@ -1,5 +1,6 @@
 package com.Edu_App.services.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -95,15 +96,15 @@ public class TransferServiceImpl implements TransferService
     }
 
     @Override
-    public void validateTransferAmount(Integer senderId, double amount, Integer currencyId)
+    public void validateTransferAmount(Integer senderId, BigDecimal amount, Integer currencyId)
     {
-        if(amount <= 0)
+        if(amount.compareTo(BigDecimal.ZERO) <= 0)
         {
             throw new BadRequestException("Amount cannot be negative");
         }
         AccountEntity sender = this.accountService.findActiveAccountById(senderId);
-        double amountInSenderCurrency = this.currencyService.convertAmount(amount, currencyId,  sender.getCurrency().getId());
-        if(sender.getBalance() < amountInSenderCurrency)
+        BigDecimal amountInSenderCurrency = this.currencyService.convertAmount(amount, currencyId,  sender.getCurrency().getId());
+        if(sender.getBalance().compareTo(amountInSenderCurrency) < 0)
         {
             throw new BadRequestException("Amount cannot be greater than the sender's balance");
         }
@@ -118,12 +119,12 @@ public class TransferServiceImpl implements TransferService
         AccountEntity sender = transfer.getSender();
         AccountEntity receiver = transfer.getReceiver();
         CurrencyEntity transferCurrency = transfer.getCurrency();
-        double amount = transfer.getAmount();
+        BigDecimal amount = transfer.getAmount();
         validateTransferAmount(sender.getId(), amount, transferCurrency.getId());
-        double amountFromSender = this.currencyService.convertAmount(amount, 
+        BigDecimal amountFromSender = this.currencyService.convertAmount(amount, 
                                                                     transferCurrency.getId(), 
                                                                     sender.getCurrency().getId());
-        double amountToReceiver = currencyService.convertAmount(amount,
+        BigDecimal amountToReceiver = currencyService.convertAmount(amount,
                                                                 transferCurrency.getId(),
                                                                 receiver.getCurrency().getId());
         this.accountService.withdrawFromAccount(sender.getId(), amountFromSender);

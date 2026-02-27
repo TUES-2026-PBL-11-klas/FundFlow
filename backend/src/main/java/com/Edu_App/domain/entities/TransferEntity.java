@@ -1,6 +1,8 @@
 package com.Edu_App.domain.entities;
 
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "transfers")
+@Table(name = "transactions")
 public class TransferEntity {
     
     @Id
@@ -26,14 +28,14 @@ public class TransferEntity {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "from_account_id")
     private AccountEntity sender;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_id")
+    @JoinColumn(name = "to_account_id")
     private AccountEntity receiver;
 
-    private double amount;
+    private BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "currency_id")

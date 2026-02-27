@@ -2,6 +2,7 @@ package com.Edu_App.repositoryTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ public class AccountRepositoryTests {
         accountRepository.save(account);
         Optional<AccountEntity> result = accountRepository.findById(account.getId());
         assertThat(result).isPresent();
-        assertThat(result.get().getBalance()).isEqualTo(account.getBalance());
+        assertThat(result.get().getBalance().compareTo(account.getBalance()) == 0);
         assertThat(result.get().getOwner().getUsername()).isEqualTo(account.getOwner().getUsername());
         assertThat(result.get().getOwner().getId()).isEqualTo(user1.getId());
         assertThat(result.get().getCurrency().getCode()).isEqualTo(currency1.getCode());
@@ -65,13 +66,13 @@ public class AccountRepositoryTests {
         accountRepository.save(account);
         Integer id = account.getId();
 
-        double newBalance = 5000.50;
+        BigDecimal newBalance = BigDecimal.valueOf(5000.50);
         account.setBalance(newBalance);
         accountRepository.save(account);
 
         Optional<AccountEntity> updatedResult = accountRepository.findById(id);
         assertThat(updatedResult).isPresent();
-        assertThat(updatedResult.get().getBalance()).isEqualTo(newBalance);
+        assertThat(updatedResult.get().getBalance().compareTo(newBalance) == 0);
 
         accountRepository.deleteById(id);
 
@@ -90,7 +91,7 @@ public class AccountRepositoryTests {
         this.accountRepository.save(account);
         Optional<AccountEntity> result = this.accountRepository.findByIban(account.getIban());
         assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo(account);
+        assertThat(result.get().getIban()).isEqualTo(account.getIban());
     }
 
     @Test

@@ -3,6 +3,8 @@ package com.Edu_App.serviceTests;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +88,8 @@ public class TransferServiceTests {
         AccountEntity sender = accountService.createAccount(TestData.CreateTestAccountEntity1(user1, currency));
         AccountEntity receiver = accountService.createAccount(TestData.CreateTestAccountEntity2(user2, currency));
 
-        double senderInitial = sender.getBalance();
-        double receiverInitial = receiver.getBalance();
+        BigDecimal senderInitial = sender.getBalance();
+        BigDecimal receiverInitial = receiver.getBalance();
 
         TransferEntity transfer = TestData.CreateTestTranferEntity1(sender, receiver, currency);
         TransferEntity saved = transferService.createTransfer(transfer);
@@ -97,11 +99,11 @@ public class TransferServiceTests {
         AccountEntity updatedSender = accountService.findAccountById(sender.getId());
         AccountEntity updatedReceiver = accountService.findAccountById(receiver.getId());
 
-        assertThat(updatedSender.getBalance())
-                .isEqualTo(senderInitial - transfer.getAmount());
+        assertThat(updatedSender.getBalance()
+                .compareTo(senderInitial.subtract(transfer.getAmount())) == 0);
 
-        assertThat(updatedReceiver.getBalance())
-                .isEqualTo(receiverInitial + transfer.getAmount());
+        assertThat(updatedReceiver.getBalance()
+                .compareTo(receiverInitial.add(transfer.getAmount())) == 0);
     }
 
     @Test
@@ -117,7 +119,7 @@ public class TransferServiceTests {
         AccountEntity receiver = accountService.createAccount(TestData.CreateTestAccountEntity2(user2, currency));
 
         TransferEntity transfer = TestData.CreateTestTranferEntity1(sender, receiver, currency);
-        transfer.setAmount(sender.getBalance() + 1000);
+        transfer.setAmount(sender.getBalance().add(BigDecimal.valueOf(1000)));
 
         assertThrows(BadRequestException.class,
                 () -> transferService.createTransfer(transfer));

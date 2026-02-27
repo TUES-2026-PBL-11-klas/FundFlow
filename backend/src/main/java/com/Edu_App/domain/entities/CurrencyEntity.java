@@ -1,5 +1,7 @@
 package com.Edu_App.domain.entities;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,5 +25,5 @@ public class CurrencyEntity {
 
     private String code;
 
-    private double exchangeRate;
+    private BigDecimal exchangeRate;
 }
