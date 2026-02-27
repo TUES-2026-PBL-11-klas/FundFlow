@@ -1,5 +1,6 @@
 package com.Edu_App.domain.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -26,7 +27,7 @@ public class UserEntity {
     private String username;
 
     private String email;
-
+    @Column(name = "password_hash", nullable = false)
     private String hashPassword;
 
     @Enumerated(EnumType.STRING)

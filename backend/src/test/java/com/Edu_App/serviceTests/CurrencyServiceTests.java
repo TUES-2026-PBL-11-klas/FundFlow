@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -114,17 +115,17 @@ public class CurrencyServiceTests {
         CurrencyEntity currency =
                 currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
 
-        currencyService.updateCurrencyExchangeRate(currency.getId(), 2.5);
+        currencyService.updateCurrencyExchangeRate(currency.getId(), BigDecimal.valueOf(2.5));
 
         CurrencyEntity updated =
                 currencyService.findCurrencyById(currency.getId());
 
-        assertThat(updated.getExchangeRate()).isEqualTo(2.5);
+        assertThat(updated.getExchangeRate().compareTo(BigDecimal.valueOf(2.5)) == 0);
     }
 
     @Test
     public void testUpdateExchangeRateThrowsException() {
         assertThrows(ResourceNotFoundException.class, () ->
-                currencyService.updateCurrencyExchangeRate(999, 3.0));
+                currencyService.updateCurrencyExchangeRate(999, BigDecimal.valueOf(3.0)));
     }
 }

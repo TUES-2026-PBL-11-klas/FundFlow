@@ -1,5 +1,7 @@
 package com.Edu_App.DTOs;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AccountDto {
     private String iban;
-    private double balance;
+    private BigDecimal balance;
     private String currencyCode; 
     private String status;
 }

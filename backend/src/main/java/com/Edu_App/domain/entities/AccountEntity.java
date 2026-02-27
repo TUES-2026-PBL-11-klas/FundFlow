@@ -2,6 +2,8 @@ package com.Edu_App.domain.entities;
 
 
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,7 +31,7 @@ public class AccountEntity {
 
     private String iban;
     
-    private double balance;
+    private BigDecimal balance;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

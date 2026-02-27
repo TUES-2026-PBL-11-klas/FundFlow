@@ -1,5 +1,7 @@
 package com.Edu_App.DTOs;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class TransferRequest {
     private String senderIban;
     private String receiverIban;
-    private double amount;
+    private BigDecimal amount;
     private String currencyCode;
 }

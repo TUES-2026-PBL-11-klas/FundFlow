@@ -3,6 +3,8 @@ package com.Edu_App.serviceTests;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,7 +74,7 @@ public class AccountServiceTests {
         CurrencyEntity currency = currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
 
         AccountEntity account = TestData.CreateTestAccountEntity1(user, currency);
-        account.setBalance(-10);
+        account.setBalance(BigDecimal.valueOf(-10));
         assertThrows(BadRequestException.class, () -> accountService.createAccount(account));
     }
 
@@ -106,11 +108,11 @@ public class AccountServiceTests {
         UserEntity user = userService.createUser(TestData.CreateTestUserEntity1());
         CurrencyEntity currency = currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
         AccountEntity account = accountService.createAccount(TestData.CreateTestAccountEntity1(user, currency));
-        double initialBalance = account.getBalance();
-        accountService.depositInAccount(account.getId(), 50);
+        BigDecimal initialBalance = account.getBalance();
+        accountService.depositInAccount(account.getId(), BigDecimal.valueOf(50));
         AccountEntity updated = accountService.findAccountById(account.getId());
 
-        assertThat(updated.getBalance()).isEqualTo(initialBalance + 50);
+        assertThat(updated.getBalance().compareTo(initialBalance.add(BigDecimal.valueOf(50))) == 0);
     }
 
     @Test
@@ -119,7 +121,7 @@ public class AccountServiceTests {
         CurrencyEntity currency = currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
         AccountEntity account = accountService.createAccount(TestData.CreateTestAccountEntity1(user, currency));
 
-        assertThrows(BadRequestException.class, () -> accountService.depositInAccount(account.getId(), -10));
+        assertThrows(BadRequestException.class, () -> accountService.depositInAccount(account.getId(),BigDecimal.valueOf(-10)));
     }
 
     @Test
@@ -127,11 +129,11 @@ public class AccountServiceTests {
         UserEntity user = userService.createUser(TestData.CreateTestUserEntity1());
         CurrencyEntity currency = currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
         AccountEntity account = accountService.createAccount(TestData.CreateTestAccountEntity1(user, currency));
-        double initialBalance = account.getBalance();
-        accountService.withdrawFromAccount(account.getId(), 30);
+        BigDecimal initialBalance = account.getBalance();
+        accountService.withdrawFromAccount(account.getId(), BigDecimal.valueOf(30));
         AccountEntity updated = accountService.findAccountById(account.getId());
 
-        assertThat(updated.getBalance()).isEqualTo(initialBalance - 30);
+        assertThat(updated.getBalance().compareTo(initialBalance.subtract(BigDecimal.valueOf(30))) == 0);
     }
 
     @Test
@@ -139,8 +141,8 @@ public class AccountServiceTests {
         UserEntity user = userService.createUser(TestData.CreateTestUserEntity1());
         CurrencyEntity currency = currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
         AccountEntity account = accountService.createAccount(TestData.CreateTestAccountEntity1(user, currency));
-        double initialBalance = account.getBalance();
-        assertThrows(BadRequestException.class, () -> accountService.withdrawFromAccount(account.getId(), initialBalance  + 200));
+        BigDecimal initialBalance = account.getBalance();
+        assertThrows(BadRequestException.class, () -> accountService.withdrawFromAccount(account.getId(), initialBalance.add(BigDecimal.valueOf(200))));
     }
 
     @Test
@@ -149,7 +151,7 @@ public class AccountServiceTests {
         CurrencyEntity currency = currencyService.createCurrency(TestData.CreateTestCurrencyEntity1());
         AccountEntity account = accountService.createAccount(TestData.CreateTestAccountEntity1(user, currency));
 
-        assertThrows(BadRequestException.class, () -> accountService.withdrawFromAccount(account.getId(), -10));
+        assertThrows(BadRequestException.class, () -> accountService.withdrawFromAccount(account.getId(), BigDecimal.valueOf(-10)));
     }
 
     @Test
@@ -160,16 +162,16 @@ public class AccountServiceTests {
 
         AccountEntity account = accountService.createAccount(TestData.CreateTestAccountEntity1(user, oldCurrency));
 
-        double oldBalance = account.getBalance();
-        double oldRate = oldCurrency.getExchangeRate();
-        double newRate = newCurrency.getExchangeRate();
-        double expectedNewBalance = (oldBalance / oldRate) * newRate;
+        BigDecimal oldBalance = account.getBalance();
+        BigDecimal oldRate = oldCurrency.getExchangeRate();
+        BigDecimal newRate = newCurrency.getExchangeRate();
+        BigDecimal expectedNewBalance = (oldBalance.divide(oldRate, 10, RoundingMode.HALF_UP).multiply(newRate));
 
         accountService.changeCurrency(account.getId(), newCurrency.getId());
         AccountEntity updated = accountService.findAccountById(account.getId());
 
         assertThat(updated.getCurrency().getId()).isEqualTo(newCurrency.getId());
-        assertThat(updated.getBalance()).isEqualTo(expectedNewBalance);
+        assertThat(updated.getBalance().compareTo(expectedNewBalance) == 0);
     }
 
     @Test

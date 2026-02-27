@@ -26,6 +26,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +95,7 @@ public class MainRestController {
             CurrencyEntity currencyEntity = this.currencyService.findCurrencyByCode(currencyCode);
 
             AccountEntity accountEntity = AccountEntity.builder()
-                                                        .balance(0.0)
+                                                        .balance(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP))
                                                         .currency(currencyEntity)
                                                         .iban(this.accountService.generateRandomIban())
                                                         .owner(this.userService.findActiveUserById(userId))
@@ -131,7 +133,8 @@ public class MainRestController {
             {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This account does not belong to this user.");
             }
-            this.accountService.depositInAccount(ibanAccount.getId(), request.getAmount());
+            BigDecimal amount = request.getAmount().setScale(2, RoundingMode.HALF_UP);
+            this.accountService.depositInAccount(ibanAccount.getId(), amount);
             return ResponseEntity.ok(Map.of("message", "succesful deposit"));
         }
         catch(BadRequestException badRException)
@@ -184,7 +187,8 @@ public class MainRestController {
             {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This account does not belong to this user.");
             }
-            this.accountService.withdrawFromAccount(ibanAccount.getId(), request.getAmount());
+            BigDecimal amount = request.getAmount().setScale(2, RoundingMode.HALF_UP);
+            this.accountService.withdrawFromAccount(ibanAccount.getId(), amount);
             return ResponseEntity.ok(Map.of("message", "succesful withdraw"));
         }
         catch(BadRequestException badRException)
@@ -239,7 +243,7 @@ public class MainRestController {
             AccountEntity receiverAccount = this.accountService.findActiveAccountByIban(request.getReceiverIban());
             CurrencyEntity currency = this.currencyService.findCurrencyByCode(request.getCurrencyCode());
             TransferEntity transfer = TransferEntity.builder()
-                                                    .amount(request.getAmount())
+                                                    .amount(request.getAmount().setScale(2, RoundingMode.HALF_UP))
                                                     .sender(sender)
                                                     .receiver(receiverAccount)
                                                     .currency(currency)

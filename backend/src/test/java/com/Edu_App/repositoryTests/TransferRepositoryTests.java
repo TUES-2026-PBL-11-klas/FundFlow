@@ -2,6 +2,7 @@ package com.Edu_App.repositoryTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class TransferRepositoryTests {
         TransferEntity transfer = TransferEntity.builder()
                 .sender(senderAcc)
                 .receiver(receiverAcc)
-                .amount(150.0)
+                .amount(BigDecimal.valueOf(150.0))
                 .currency(bgn)
                 .build();
 
@@ -61,7 +62,7 @@ public class TransferRepositoryTests {
         Optional<TransferEntity> result = this.transferRepository.findById(savedTransfer.getId());
 
         assertThat(result).isPresent();
-        assertThat(result.get().getAmount()).isEqualTo(150.0);
+        assertThat(result.get().getAmount().compareTo(BigDecimal.valueOf(150.0)) == 0);
         assertThat(result.get().getSender().getIban()).isEqualTo(senderAcc.getIban());
         assertThat(result.get().getReceiver().getIban()).isEqualTo(receiverAcc.getIban());
     }
@@ -74,7 +75,7 @@ public class TransferRepositoryTests {
         AccountEntity acc2 = this.accountRepository.save(TestData.CreateTestAccountEntity2(user, curr));
 
         TransferEntity transfer = this.transferRepository.save(TransferEntity.builder()
-                .sender(acc1).receiver(acc2).amount(50.0).currency(curr).build());
+                .sender(acc1).receiver(acc2).amount(BigDecimal.valueOf(50.0)).currency(curr).build());
 
         Integer transferId = transfer.getId();
         
