@@ -15,30 +15,27 @@
 
     <form>
 
-        <input type="text" placeholder="Receiver IBAN" required>
+        <input type="text" placeholder="Receiver IBAN" id="Resiver" required>
 
-        <input type="password" placeholder="Password" required>
+         <input type="text" placeholder="sender IBAN" id="sender" required>
 
-        <input type="number" placeholder="Amount" required>
+        <input type="password" placeholder="Password" id="pass" required>
 
-        <select required>
-            <option value="">Select Currency</option>
-            <option>USD</option>
-            <option>EUR</option>
-            <option>GBP</option>
-            <option>BGN</option>
-            <option>JPY</option>
-            <option>AUD</option>
-            <option>CAD</option>
-            <option>CHF</option>
-            <option>CNY</option>
-            <option>INR</option>
+        <input type="number" placeholder="Amount" id="number" required>
+
+        <select id="curensyCode" required>
+            <option>No Currency</option>
+            
         </select>
 
+        <a href="Front_page.html">
         <button type="submit">Confirm Payment</button>
+        </a>
 
     </form>
 </div>
+
+<script src="transactions.js"></script>
 
 </body>
 </html>
