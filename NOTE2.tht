@@ -1,0 +1,40 @@
+tranfer
+    type="text" placeholder="Receiver IBAN" 
+
+    type="password" placeholder="Password" 
+
+    type="number" placeholder="Amount" 
+
+    value="">Select Currency  избор на къранси
+
+Acount
+
+    type="тежт" placeholder="Password" required>
+
+    type="email" placeholder="Email" required>
+
+    value="">Choose Currency   избор на къранси
+
+Log in
+    
+    type="email" placeholder="Email"
+
+    type="password" placeholder="Password"
+
+     type="checkbox"> Remember за да те помни
+
+sing in
+
+type="text" id="username" placeholder="Username"
+
+type="email" placeholder="Email"
+
+type="password" id="password" placeholder="Password"
+
+type="password" id="confirm" placeholder="Confirm Password"
+
+Имам скрипт който проверява 
+
+Front 
+
+За Frond e това с докера тоест не е писано нищо

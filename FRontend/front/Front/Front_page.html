@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fund Flow - Dashboard</title>
+<link rel="stylesheet" href="front_P.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="card box1">
+        <h2>Accounts</h2>
+        <p>Welcome, <span id="welcome-msg"></span></p>
+        <table>
+            <thead>
+                <tr>
+                    <th>IBAN</th>
+                    <th>Balance</th>
+                    <th>Currency</th>
+                </tr>
+            </thead>
+            <tbody id="accounts-table-body">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="right-column">
+        <div class="card box2">
+            <h2>Quick Actions</h2>
+
+            <div class="input-group">
+                <input type="text" id="trans-iban" placeholder="Enter IBAN">
+                <input type="number" id="trans-amount" placeholder="Amount">
+            </div>
+
+            <div id="trans-msg"></div>
+
+            <div class="button-group">
+                <button onclick="handleDepositAndWithDraw('deposit')">Deposit</button>
+                <button onclick="handleDepositAndWithDraw('withdraw')">Withdraw</button>
+            </div>
+        </div>
+
+        <div class="card box3">
+            <h2>Navigation</h2>
+            <div class="button-group-vertical">
+                <button onclick="location.href='../transfer/transfer.html'">Transfer</button>
+                <button onclick="location.href='../account/account.html'">New Account</button>
+            </div>
+
+            <div class="logout">
+                <a href="#" onclick="logout()">Log out</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="Front_page.js"></script>
+</body>
+</html>
