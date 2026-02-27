@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fund Flow - Transfer</title>
+<link rel="stylesheet" href="transfer.css">
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Transfer Money</h2>
+    <div id="msg"></div>
+    <a>Accounts</a>
+    <div id="my-accounts" style="margin-bottom: 20px; font-size: 0.9em;"></div>
+    <form id="transferForm">
+
+        <input type="text" placeholder="Receiver IBAN" id="receiverIban" required>
+
+        <input type="text" placeholder="sender IBAN" id="senderIban" required>
+
+        <input type="number" placeholder="Amount" id="amount" required>
+
+        <select id="currencyCode" required>
+            <option>No Currency</option>
+            
+        </select>
+
+        <button type="submit">Confirm Payment</button>
+    </form>
+
+    <br>
+        <a href="../Front/Front_page.html" style="color: #ffffff; text-decoration: none;">← Back to Home</a>
+    </div>
+</div>
+
+<script src="transfer.js"></script>
+
+</body>
+</html>
