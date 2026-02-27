@@ -1,0 +1,39 @@
+name: Build & Push Docker Image
+
+on:
+  push:
+    branches:
+      - Backend
+
+jobs:
+  build-deploy:
+    name: Build and Deploy FundFlow
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Grant execute permission for mvnw
+        run: chmod +x mvnw
+
+      - name: Run Unit Tests
+        run: ./mvnw clean test
+
+      - name: Build Application
+        run: ./mvnw clean package -DskipTests
+
+      - name: Build Docker image
+        run: docker build -t Vikt0rinho/fundflow-backend:latest .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push Docker image
+        run: docker push Vikt0rinho/fundflow-backend:latest
