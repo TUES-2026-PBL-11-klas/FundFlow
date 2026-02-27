@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS currencies;
 CREATE TABLE currencies (
     id SERIAL PRIMARY KEY,
     code CHAR(3) UNIQUE NOT NULL,
-    exchnage_rate DECIMAL(10,4) NOT NULL
+    exchange_rate DECIMAL(10,4) NOT NULL
 );
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
