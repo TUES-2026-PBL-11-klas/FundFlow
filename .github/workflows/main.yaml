@@ -21,7 +21,7 @@ jobs:
       - name: Build & Push Image
         uses: docker/build-push-action@v5
         with:
-          context: C:\Users\Victor\Desktop\FUND_FLOW\FundFlow\backend\Dockerfile
+          context: C:\Users\Victor\Desktop\FUND_FLOW\FundFlow\backend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/fundflow-backend:latest
 
