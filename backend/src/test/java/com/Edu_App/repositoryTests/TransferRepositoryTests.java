@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.Edu_App.TestData;
@@ -20,7 +21,7 @@ import com.Edu_App.repositories.AccountRepository;
 import com.Edu_App.repositories.CurrencyRepository;
 import com.Edu_App.repositories.TransferRepository;
 import com.Edu_App.repositories.UserRepository;
-
+@ActiveProfiles("test")
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -50,7 +51,7 @@ public class TransferRepositoryTests {
 
         TransferEntity transfer = TransferEntity.builder()
                 .sender(senderAcc)
-                .reciever(receiverAcc)
+                .receiver(receiverAcc)
                 .amount(150.0)
                 .currency(bgn)
                 .build();
@@ -62,7 +63,7 @@ public class TransferRepositoryTests {
         assertThat(result).isPresent();
         assertThat(result.get().getAmount()).isEqualTo(150.0);
         assertThat(result.get().getSender().getIban()).isEqualTo(senderAcc.getIban());
-        assertThat(result.get().getReciever().getIban()).isEqualTo(receiverAcc.getIban());
+        assertThat(result.get().getReceiver().getIban()).isEqualTo(receiverAcc.getIban());
     }
 
     @Test
@@ -73,7 +74,7 @@ public class TransferRepositoryTests {
         AccountEntity acc2 = this.accountRepository.save(TestData.CreateTestAccountEntity2(user, curr));
 
         TransferEntity transfer = this.transferRepository.save(TransferEntity.builder()
-                .sender(acc1).reciever(acc2).amount(50.0).currency(curr).build());
+                .sender(acc1).receiver(acc2).amount(50.0).currency(curr).build());
 
         Integer transferId = transfer.getId();
         

@@ -4,19 +4,23 @@ package com.Edu_App.repositoryTests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.sql.SQLException;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.Edu_App.TestData;
 import com.Edu_App.domain.entities.UserEntity;
 import com.Edu_App.repositories.UserRepository;
-
+@ActiveProfiles("test")
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -30,6 +34,13 @@ public class UserRepositoryTests {
         this.userRepository = userR;
     }
 
+    @Autowired
+    private DataSource dataSource;
+
+    @Test
+    void checkDataSource() throws SQLException {
+        System.out.println("Using DB: " + dataSource.getConnection().getMetaData().getURL());
+    }
     @Test
     public void testSaveAndFindUser() {
         UserEntity user = TestData.CreateTestUserEntity1();

@@ -30,8 +30,8 @@ public class TransferEntity {
     private AccountEntity sender;
 
     @ManyToOne
-    @JoinColumn(name = "reciever_id")
-    private AccountEntity reciever;
+    @JoinColumn(name = "receiver_id")
+    private AccountEntity receiver;
 
     private double amount;
 
