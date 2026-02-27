@@ -1,2 +1,1 @@
-# FundFlow
-Educational platform for finance
+Testing the git actions pipeline
