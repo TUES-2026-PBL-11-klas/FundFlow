@@ -82,7 +82,7 @@ window.onload = async function()
             {
                 msg.style.color = "green";
                 msg.innerText = "Succesfull transaction";
-                setTimeout(() => window.location.href = 'home.html', 1500);
+                setTimeout(() => window.location.href = '../Front/Front_page.html', 1500);
             } 
             else 
             {

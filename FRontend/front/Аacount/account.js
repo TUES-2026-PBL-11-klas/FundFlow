@@ -70,7 +70,7 @@ async function handleCreateAccount()
     {
         msgEl.innerText = "Account created Successfully";
         msgEl.style.color = "green";
-        setTimeout(() => window.location.href = 'home.html', 1500);
+        setTimeout(() => window.location.href = '../Front/Front_page.html', 1500);
     } 
     else 
     {

@@ -8,34 +8,33 @@
 
 <body>
 
-<div class="title">Fund Flow</div>
-
 <div class="container">
     <h2>Transfer Money</h2>
+    <div id="msg"></div>
+    <a>Accounts</a>
+    <div id="my-accounts" style="margin-bottom: 20px; font-size: 0.9em;"></div>
+    <form id="transferForm">
 
-    <form>
+        <input type="text" placeholder="Receiver IBAN" id="receiverIban" required>
 
-        <input type="text" placeholder="Receiver IBAN" id="Resiver" required>
+        <input type="text" placeholder="sender IBAN" id="senderIban" required>
 
-         <input type="text" placeholder="sender IBAN" id="sender" required>
+        <input type="number" placeholder="Amount" id="amount" required>
 
-        <input type="password" placeholder="Password" id="pass" required>
-
-        <input type="number" placeholder="Amount" id="number" required>
-
-        <select id="curensyCode" required>
+        <select id="currencyCode" required>
             <option>No Currency</option>
             
         </select>
 
-        <a href="Front_page.html">
         <button type="submit">Confirm Payment</button>
-        </a>
-
     </form>
+
+    <br>
+        <a href="../Front/Front_page.html" style="color: #ffffff; text-decoration: none;">← Back to Home</a>
+    </div>
 </div>
 
-<script src="transactions.js"></script>
+<script src="transfer.js"></script>
 
 </body>
 </html>

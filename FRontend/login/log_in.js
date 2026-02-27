@@ -24,7 +24,7 @@ window.onload = function()
 
                 if(response.ok) 
                 {
-                    window.location.href = 'home.html';
+                    window.location.href = '../front/Front/Front_page.html';
                 } 
                 else 
                 {

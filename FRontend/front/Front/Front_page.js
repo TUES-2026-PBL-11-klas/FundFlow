@@ -76,5 +76,5 @@
     async function logout() 
     {
         await fetch('http://127.0.0.1:8080/api/logout', { method: 'POST', credentials: 'include' });
-        window.location.href = 'login.html';
+        window.location.href = '../../login/log_in.html';
     }

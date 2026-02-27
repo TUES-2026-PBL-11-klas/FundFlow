@@ -38,7 +38,7 @@ window.onload = function()
 
                 if(response.ok) 
                 {
-                    window.location.href = 'login.html';
+                    window.location.href = 'log_in.html';
                 } 
                 else 
                 {
